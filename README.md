@@ -19,6 +19,8 @@ Preprocessing consisted of aggregating all of the features into a single vector.
 
 I then explored dimensionality reduction techniques using scikit learn functions such as SelectKBest in conjunction with a chi-squared test. The chi-squared test will calculate F-scores and rank the features according to their importance. The optimal cutoff point was found through hyperparameter tuning on the validation set. Ultimately, the dimensionality reduction methods did not result in lower log loss scores, so I decided to use all of the extracted features.
 
+# Modeling
+
 The next step was to develop a modeling approach that could handle sparse features without taking too long to train. Through hyperparameter tuning on the validation set, I found that linear models had the lowest log loss; specifically, an ensemble of logistic regression models optimized via SGD (stochastic gradient descent) with differing levels of regularization. Various other models were tested such as tree-based models and neural networks, but I found that linear models produced the lowest log loss.
 
 I then decided to label encode the target labels via scikit learn’s LabelEncoder. The result was a matrix with 9 target columns. The procedure was as follows:
@@ -29,7 +31,7 @@ I then decided to label encode the target labels via scikit learn’s LabelEncod
 
 I chose to label encode the target labels column wise so that I could fit a single classifier on each class. But instead of fitting one classifier for each class, I fit 3 separate classifiers with differing levels of regularization per class. One classifier had L1 regularization for feature selection (making some of the coefficients zero); L2 regularization to make some of the coefficients small; and a low penalty term (alpha) to further regularize and prevent overfitting. After making predictions, the results were averaged to produce the final probabilities. Using both holdout validation and the leaderboard scores, I found that this combination of regularization alongside optimization via SGD resulted in probabilities that produced the lowest loss results. I relied upon holdout validation and the leaderboard scores because cross validation became too difficult to implement without crashing my computer. 
 
-# Modeling
+# Conclusion & Recommendations
 
 After testing many ideas I found that simple models worked best. I tested various complex algorithms that required a lot of computational power (such as a neural network) but found that they produced suboptimal results compared to the simpler methods such as the logistic regression and SGD. The difficulty was the size of this dataset and the time it took train using this computationally expensive methods. Aside from the goal of winning the competition, the business goal of automating and improving the way schools manage their budgets can be met with the following recommendations:
 - The practical goal is to have a production ready model. Using complex ensembles or complex algorithms may produce marginal gains for winning the competition but for putting a model into production, it's practically useless. We need a model that can train relatively quickly given the high volume and velocity of the data. Therefore, I recommend that the production model be a simple linear model optimized via SGD or mini-batch SGD since calculating the gradients in a big data setting can take a very long time, so it helps to not use the entire training to update the weights but one observation at a time. 
