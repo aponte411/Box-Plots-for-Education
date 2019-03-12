@@ -1,6 +1,9 @@
 # Box-Plots-for-Education
 Greetings! This repository contains my work for the Box-Plots for Education Data Science Competition. Below is an executive summary of the project.
 
+# Materials & Methods
+
+This project was done in Python using Google Colaboratory notebooks with a Tesla K80 GPU. The following versions of software were used: Numpy 1.14.6, pandas 0.22.0, sklearn 0.20.3, xgboost 0.7.post4, scipy 1.1.0, keras 2.2.4. The data was downloaded from DrivenData.org. 
 
 # Executive Summary
 
